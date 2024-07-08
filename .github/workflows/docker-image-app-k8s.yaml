@@ -16,6 +16,8 @@ jobs:
     - name: Build the Docker image
       run: docker build --file Dockerfile --tag cr.yandex/${{ secrets.REGISTRY_ID }}/app-k8s-graduate-work:1.1 .
 
+    - name: List of Docker images
+      run: docker image list
 #    - name: Build and push
 #      uses: docker/build-push-action@v2
 #      with:
