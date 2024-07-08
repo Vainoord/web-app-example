@@ -14,14 +14,13 @@ jobs:
       with:
         yc-sa-json-credentials: ${{ secrets.REGISTRY_TOKEN }}
     
-#    - uses: actions/checkout@v3
-#    - name: Build the Docker image
-#      run: docker build --file Dockerfile -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG .
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build --file Dockerfile -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG .
 
     - name: Build, tag, and push image to Yandex Cloud Container Registry
       run: |
-        pwd | ls -la
-        docker build -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG .
+        pwd
         docker push cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG
 
 #    - name: create kubeconfig file
