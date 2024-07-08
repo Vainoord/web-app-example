@@ -17,7 +17,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ github.sha }}
+        tags: cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:${{ github.sha }}
 
 #    - name: Build, tag, and push image to Yandex Cloud Container Registry
 #      env:
