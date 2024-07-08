@@ -2,11 +2,11 @@ name: docker-image-app-k8s
 on:
   push:
     branches: "main" 
+env:
+  IMAGE_TAG: $(date +%s)
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      IMAGE_TAG: $(date +%s)
     steps:
     - name: Login to Yandex Cloud Container Registry
       id: login-cr
