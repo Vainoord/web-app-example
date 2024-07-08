@@ -20,7 +20,7 @@ jobs:
 
     - name: Build, tag, and push image to Yandex Cloud Container Registry
       run: |
-        docker build --file Dockerfile -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG .
+        docker build -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG .
         docker push cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG
 
 #    - name: create kubeconfig file
