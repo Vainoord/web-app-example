@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Login to Yandex Cloud Container Registry
-      id: ${{ secret.REGISTRY_USER }}
+      id: ${{ secrets.REGISTRY_USER }}
       uses: yc-actions/yc-cr-login@v2
       with:
         yc-sa-json-credentials: ${{ secrets.REGISTRY_TOKEN }}
@@ -18,8 +18,8 @@ jobs:
         CR_REPOSITORY: app-qualification-geo
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t cr.yandex/${{ secret.REGISTRY_ID }}/$CR_REPOSITORY:$IMAGE_TAG .
-        docker push cr.yandex/${{ secret.REGISTRY_ID }}/$CR_REPOSITORY:$IMAGE_TAG
+        docker build -t cr.yandex/${{ secrets.REGISTRY_ID }}/$CR_REPOSITORY:$IMAGE_TAG .
+        docker push cr.yandex/${{ secrets.REGISTRY_ID }}/$CR_REPOSITORY:$IMAGE_TAG
  
 #    - name: Extract metadata (tags, labels) for Docker
 #      id: meta
