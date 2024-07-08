@@ -1,4 +1,3 @@
-              
 name: docker-image-app-k8s
 on:
   push:
