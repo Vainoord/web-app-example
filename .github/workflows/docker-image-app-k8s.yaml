@@ -8,6 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Show variables
+      run: echo $IMAGE_TAG
+      
     - name: Login to Yandex Cloud Container Registry
       id: login-cr
       uses: yc-actions/yc-cr-login@v2
