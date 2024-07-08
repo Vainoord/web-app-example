@@ -11,22 +11,25 @@ jobs:
       uses: yc-actions/yc-cr-login@v2
       with:
         yc-sa-json-credentials: ${{ secrets.REGISTRY_TOKEN }}
+    
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build --file Dockerfile --tag cr.yandex/${{ secrets.REGISTRY_ID }}/app-k8s-graduate-work:${{ github.sha }} .
 
-    - name: Build and push
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: ./Dockerfile
-        builder: ${{ steps.buildx.outputs.name }}
-        push: true
-        tags: 'cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:${{ github.sha }}'
-#    - name: Build, tag, and push image to Yandex Cloud Container Registry
-#      env:
-#        CR_REPOSITORY: app-qualification-geo
-#        IMAGE_TAG: ${{ github.sha }}
-#      run: |
-#        docker build -t cr.yandex/${{ secrets.REGISTRY_ID }}/$CR_REPOSITORY:$IMAGE_TAG .
-#        docker push cr.yandex/${{ secrets.REGISTRY_ID }}/$CR_REPOSITORY:$IMAGE_TAG
+#    - name: Build and push
+#      uses: docker/build-push-action@v2
+#      with:
+#        context: .
+#        file: ./Dockerfile
+#        builder: ${{ steps.buildx.outputs.name }}
+#        push: true
+#        tags: 'cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:${{ github.sha }}'
+    - name: Build, tag, and push image to Yandex Cloud Container Registry
+      env:
+        CR_REPOSITORY: app-qualification-geo
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker push cr.yandex/${{ secrets.REGISTRY_ID }}/$CR_REPOSITORY:$IMAGE_TAG
 # 
 #    - name: Extract metadata (tags, labels) for Docker
 #      id: meta
