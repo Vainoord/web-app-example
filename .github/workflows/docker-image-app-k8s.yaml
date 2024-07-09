@@ -15,12 +15,34 @@ jobs:
       uses: yc-actions/yc-cr-login@v2
       with:
         yc-sa-json-credentials: ${{ secrets.REGISTRY_TOKEN }}
-    
+
     - name: Build, tag, and push image to Yandex Cloud Container Registry
       run: |
         docker build -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG .
-        docker push cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG
+  #      docker push cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG
 
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo
+##        tags: latest
+##        labels: latest
+        tags: |
+              # type=semver,pattern={{version}},value=v1.0.0
+              # minimal
+              # type=pep440,pattern={{version}}
+              # use custom value instead of git tag
+              # type=pep440,pattern={{version}},value={{major}}.{{minor}}
+              # type=ref,event=branch
+              # type=sha
+              type=sha,prefix={{branch}}-
+              # type=sha,format=long
+              # type=sha,format=long,prefix={{branch}}-
+              type=raw,value=latest
+
+    - name: Docker image list
+      run: docker image list
 #    - name: create kubeconfig file
 #      run: |
 #        mkdir ${HOME}/.kube
