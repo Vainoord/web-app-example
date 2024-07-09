@@ -24,8 +24,8 @@ jobs:
     - name: Build, tag, and push image to Yandex Cloud Container Registry
 
       run: |
-        docker build -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:${{ env.IMAGE_TAG }} .
-        docker push cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:${{ env.IMAGE_TAG }}
+#        docker build -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:${{ env.IMAGE_TAG }} .
+#        docker push cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:${{ env.IMAGE_TAG }}
 
 
     - name: Add kubeconfig file
@@ -40,17 +40,17 @@ jobs:
     #- name: Deploy namespace to K8s Cluster
     #  run: kubectl apply -f namespace.yaml
 
-    - name: Paste registry_id in K8s secret manifest
+    - name: Paste registry token into K8s secret manifest
       env:
         reg_cred: ${{ secrets.REGISTRY_TOKEN }}
       run: |
         value='echo $reg_cred | base64'
-        sed -i 's/DOCKER_CONFIG/$value/g' secret-registry.yaml 
+        sed -i "s|DOCKER_CONFIG|$value|g" secret-registry.yaml 
 
     #- name: Deploy secret to K8s Cluster
     #  run:
     
-    - name: Paste registry_id in K8S app manifest
+    - name: Paste registry ID into K8S app manifest
       run: sed -i 's/REGISTRY_ID/${{ secrets.REGISTRY_ID }}/g' app-nginx.yaml
 
     - name: Show files
