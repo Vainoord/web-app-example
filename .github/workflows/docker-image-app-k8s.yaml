@@ -16,6 +16,9 @@ jobs:
       with:
         yc-sa-json-credentials: ${{ secrets.REGISTRY_TOKEN }}
 
+    - name: Check variable
+      run: echo $IMAGE_TAG
+
     - name: Build, tag, and push image to Yandex Cloud Container Registry
 
       run: |
