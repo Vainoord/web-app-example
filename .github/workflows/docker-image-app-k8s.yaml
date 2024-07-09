@@ -26,8 +26,6 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG
-        tags: semver
-##        labels: latest
         tags: |
           # minimal
           type=semver,pattern={{version}}
