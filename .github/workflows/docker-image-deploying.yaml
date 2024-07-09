@@ -41,13 +41,12 @@ jobs:
     #  run: kubectl apply -f namespace.yaml
 
     - name: Paste registry token into K8s secret manifest
-      env:
-        reg_cred: ${{ secrets.REGISTRY_TOKEN }}
+      #env:
+      #  reg_cred: ${{ secrets.REGISTRY_TOKEN }}
       run: |
-        value=`echo $reg_cred| base64`
-        echo $value
+        echo "${{ secrets.REGISTRY_TOKEN }}"
         #value=blah
-        sed -i "s/DOCKER_CONFIG/${{ secrets.REGISTRY_TOKEN }}/g" secret-registry.yaml 
+        sed -i "s/DOCKER_CONFIG/${{ secrets.REGISTRY_TOKEN }}/g" secret-registry.yaml
 
     #- name: Deploy secret to K8s Cluster
     #  run:
