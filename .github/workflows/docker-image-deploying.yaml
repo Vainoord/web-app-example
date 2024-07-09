@@ -45,7 +45,7 @@ jobs:
         reg_cred: ${{ secrets.REGISTRY_TOKEN }}
       run: |
         value=`echo $reg_cred | base64`
-        sed -i '' "s/DOCKER_CONFIG/$value/g" secret-registry.yaml 
+        sed -i secret-registry.yaml "s/DOCKER_CONFIG/$value/g" secret-registry.yaml 
 
     #- name: Deploy secret to K8s Cluster
     #  run:
