@@ -1,2 +1,6 @@
 # web-app-example
-this is a simple web page for my qualification task
+
+This is a simple web page for my qualification task that shows your location coordinates.
+
+---
+

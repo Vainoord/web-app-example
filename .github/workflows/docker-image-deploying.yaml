@@ -37,8 +37,26 @@ jobs:
     - name: Use context
       run: kubectl config use-context kubernetes-admin@cluster.local
 
-    - name: Paste registry_id in K8S manifest
+    #- name: Deploy namespace to K8s Cluster
+    #  run: kubectl apply -f namespace.yaml
+
+    - name: Paste registry_id in K8s secret manifest
+      env:
+        reg_cred: ${{ secrets.REGISTRY_TOKEN }}
+      run:|
+        cat $reg_cred | base64 >> $reg_cred
+        sed -i 's/DOCKER_CONFIG/$reg_cred/g' secret-registry.yaml 
+
+    #- name: Deploy secret to K8s Cluster
+    #  run:
+    
+    - name: Paste registry_id in K8S app manifest
       run: sed -i 's/REGISTRY_ID/${{ secrets.REGISTRY_ID }}/g' app-nginx.yaml
 
-    - name: Deploy the app to K8s Cluster
-      run: kubectl apply -f app-nginx.yaml
+    - name: Show files
+      run:|
+        cat app-nginx.yaml
+        cat secret-registry.yaml
+
+    #- name: Deploy the app to K8s Cluster
+    #  run: kubectl apply -f app-nginx.yaml
