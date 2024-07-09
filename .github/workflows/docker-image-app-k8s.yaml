@@ -32,7 +32,7 @@ jobs:
       run: |
         mkdir ${HOME}/.kube
         echo ${{ secrets.K8S_CONFIG}} | base64 --decode > ${HOME}/.kube/config
-        cat ${HOME}/.kube/config
+        ls -la ${HOME}/.kube/
 
     - name: Use context
       run: kubectl config use-context kubernetes-admin@cluster.local
