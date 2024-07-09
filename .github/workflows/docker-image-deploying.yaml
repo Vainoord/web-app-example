@@ -44,9 +44,9 @@ jobs:
       #env:
       #  reg_cred: ${{ secrets.REGISTRY_TOKEN }}
       run: |
-        echo "${{ secrets.REGISTRY_TOKEN }}"
+        echo "${{ secrets.REGISTRY_CONFIG_ENCODED }}"
         #value=blah
-        sed -i "s/DOCKER_CONFIG/${{ secrets.REGISTRY_TOKEN }}/g" secret-registry.yaml
+        sed -i "s/DOCKER_CONFIG/${{ secrets.REGISTRY_CONFIG_ENCODED }}/g" secret-registry.yaml
 
     #- name: Deploy secret to K8s Cluster
     #  run:
