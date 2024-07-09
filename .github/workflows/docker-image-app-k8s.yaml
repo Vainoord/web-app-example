@@ -3,7 +3,7 @@ on:
   push:
     branches: "main" 
 env:
-  IMAGE_TAG: ${{ github.run_id }}
+  IMAGE_TAG: ${{ date +'%Y%m%d-%H%m' }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,27 +19,17 @@ jobs:
     - name: Build, tag, and push image to Yandex Cloud Container Registry
       run: |
         docker build -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG .
-  #      docker push cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG
+        docker push cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG
 
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG
-        tags: |
-          # minimal
-          type=semver,pattern={{version}}
-          # use custom value instead of git tag
-          type=semver,pattern={{version}},value=v1.0.0
 
-    - name: Docker image list
-      run: docker image list
-#    - name: create kubeconfig file
-#      run: |
-#        mkdir ${HOME}/.kube
-#        echo ${{ secrets.K8S_CONFIG}} | base64 --decode > ${HOME}/.kube/config
-#        cat ${HOME}/.kube/config    
-#    - name: Use context
-#      run: kubectl config use-context kubernetes-admin@cluster.local
-#    - name: Deploy APP to K8S
-#      run: kubectl apply -f app-k8s-graduate-work.yml
+    - name: Add kubeconfig file
+      run: |
+        mkdir ${HOME}/.kube
+        echo ${{ secrets.K8S_CONFIG}} | base64 --decode > ${HOME}/.kube/config
+        cat ${HOME}/.kube/config
+
+    - name: Use context
+      run: kubectl config use-context kubernetes-admin@cluster.local
+
+    - name: Deploy the app to K8s Cluster
+      run: kubectl apply -f docker-image-app-k8s.yml
