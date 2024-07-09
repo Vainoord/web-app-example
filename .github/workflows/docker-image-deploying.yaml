@@ -1,4 +1,4 @@
-name: docker-image-app-k8s
+name: docker-image-deploying
 on:
   push:
     branches: "main"
@@ -38,4 +38,4 @@ jobs:
       run: kubectl config use-context kubernetes-admin@cluster.local
 
     - name: Deploy the app to K8s Cluster
-      run: kubectl apply -f docker-image-app-k8s.yml
+      run: kubectl apply -f app-nginx.yaml
