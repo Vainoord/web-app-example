@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: geo-app
-        image: cr.yandex/crp1h3ir3dj4rbtunnhs/app-qualification-geo:1.0
+        image: cr.yandex/REGISTRY_ID/app-qualification-geo:1.0
         resources:
           limits:
             memory: "128Mi"
