@@ -2,14 +2,16 @@ name: docker-image-app-k8s
 on:
   push:
     branches: "main"
-env:
-    IMAGE_TAG: $(date +'%Y%m%d-%H%m')
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    
+
+    - name: Set IMAGE_TAG variable
+      run: echo "IMAGE_TAG=$(date +'%Y%m%d-%H%m')" >> $GITHUB_ENV
+
     - name: Login to Yandex Cloud Container Registry
       id: login-cr
       uses: yc-actions/yc-cr-login@v2
@@ -22,8 +24,8 @@ jobs:
     - name: Build, tag, and push image to Yandex Cloud Container Registry
 
       run: |
-        docker build -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG .
-        docker push cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG
+        docker build -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:${{ env.IMAGE_TAG }} .
+        docker push cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:${{ env.IMAGE_TAG }}
 
 
     - name: Add kubeconfig file
