@@ -51,7 +51,7 @@ jobs:
     #  run:
     
     - name: Paste registry ID into K8S app manifest
-      run: sed -e 's/REGISTRY_ID/${{ secrets.REGISTRY_ID }}/g' app-nginx.yaml
+      run: sed -e "s/REGISTRY_ID/${{ secrets.REGISTRY_ID }}/g" app-nginx.yaml
 
     - name: Show files
       run: |
