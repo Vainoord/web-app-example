@@ -16,7 +16,7 @@ jobs:
 
     - name: Build, tag, and push image to Yandex Cloud Container Registry
       env:
-        IMAGE_TAG: ${{ date +'%Y%m%d-%H%m' }}
+        IMAGE_TAG: $(date +'%Y%m%d-%H%m')
       run: |
         docker build -t cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG .
         docker push cr.yandex/${{ secrets.REGISTRY_ID }}/app-qualification-geo:$IMAGE_TAG
